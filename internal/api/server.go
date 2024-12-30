@@ -535,6 +535,10 @@ func setPageSecurityHeaders(w http.ResponseWriter, r *http.Request, plugins []*p
 		"'unsafe-inline'",
 		"'unsafe-eval'",
 	}
+	// Add Umami script and connect sources
+	scriptSrcSlice = append(scriptSrcSlice, "http://192.168.0.124:3000")
+	connectSrcSlice = append(connectSrcSlice, "http://192.168.0.124:3000")
+
 	styleSrcSlice := []string{
 		"'self'",
 		"'unsafe-inline'",
@@ -590,7 +594,6 @@ func setPageSecurityHeaders(w http.ResponseWriter, r *http.Request, plugins []*p
 	w.Header().Set("Referrer-Policy", "same-origin")
 	w.Header().Set("Content-Security-Policy", cspDirectives)
 }
-
 func SecurityHeadersMiddleware(next http.Handler) http.Handler {
 	fn := func(w http.ResponseWriter, r *http.Request) {
 		w.Header().Set("X-Content-Type-Options", "nosniff")
